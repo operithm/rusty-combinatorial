@@ -31,7 +31,7 @@
 /// assert!(sol.contains(&vec![7]));
 /// ```
 pub fn subset_sum(nums: &[i32], target: i32) -> Vec<Vec<i32>> {
-    fn helper(
+    fn backtrack(
         idx: usize,
         nums: &[i32],
         curr: &mut Vec<i32>,
@@ -47,15 +47,15 @@ pub fn subset_sum(nums: &[i32], target: i32) -> Vec<Vec<i32>> {
             return;
         }
         // Exclude
-        helper(idx + 1, nums, curr, sum, target, out);
+        backtrack(idx + 1, nums, curr, sum, target, out);
         // Include
         curr.push(nums[idx]);
-        helper(idx + 1, nums, curr, sum + nums[idx], target, out);
+        backtrack(idx + 1, nums, curr, sum + nums[idx], target, out);
         curr.pop();
     }
 
     let mut res = Vec::new();
-    helper(0, nums, &mut Vec::new(), 0, target, &mut res);
+    backtrack(0, nums, &mut Vec::new(), 0, target, &mut res);
     res
 }
 
